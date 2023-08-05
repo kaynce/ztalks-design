@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ztalks/pages/Home.dart';
+import 'package:ztalks/pages/home/Home.dart';
 
 void main() {
   runApp(const MyApp());

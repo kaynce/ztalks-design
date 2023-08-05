@@ -18,6 +18,40 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void _showMenuForm(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          final screenWidth = MediaQuery.of(context).size.width;
+          final screenHeight = MediaQuery.of(context).size.height;
+
+          return Container(
+            width: screenWidth,
+            height: screenHeight * 0.3,
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, //Not working
+              children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Create a space'),
+                ),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Donate/Buy me a coffee'),
+                ),
+                 SizedBox(height: 10),
+                 ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Back'),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +96,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(15),
                   child: Column(
                     children: [
                       Row(
@@ -166,7 +200,6 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                             ),
-                           
                         ],
                       ),
                     ],
@@ -178,10 +211,24 @@ class _HomeState extends State<Home> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          //Call the bottom sheet here
+          _showMenuForm(context);
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Friends'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.message), label: 'Messages'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.notifications), label: 'Notif.'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          ]),
     );
   }
 }

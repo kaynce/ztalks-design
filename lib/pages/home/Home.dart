@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ztalks/pages/home/space.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
@@ -41,8 +42,8 @@ class _HomeState extends State<Home> {
                   onPressed: () {},
                   child: Text('Donate/Buy me a coffee'),
                 ),
-                 SizedBox(height: 10),
-                 ElevatedButton(
+                SizedBox(height: 10),
+                ElevatedButton(
                   onPressed: () {},
                   child: Text('Back'),
                 ),
@@ -147,7 +148,14 @@ class _HomeState extends State<Home> {
                                             ),
                                           ),
                                           InkWell(
-                                            onTap: () {},
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Space(),
+                                                  ));
+                                            },
                                             child: Container(
                                               width: 30,
                                               height: 30,
@@ -219,16 +227,16 @@ class _HomeState extends State<Home> {
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Friends'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.message), label: 'Messages'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.notifications), label: 'Notif.'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          ]),
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Friends'),
+          BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Messages'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.notifications), label: 'Notif.'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ],
+      ),
     );
   }
 }

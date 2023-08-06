@@ -12,6 +12,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _counter = 0;
+  int selectedOption = 1;
 
   void _incrementCounter() {
     setState(() {
@@ -34,7 +35,9 @@ class _HomeState extends State<Home> {
               mainAxisSize: MainAxisSize.min, //Not working
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _showCreateSpaceForm(context);
+                  },
                   child: Text('Create a space'),
                 ),
                 SizedBox(height: 10),
@@ -51,6 +54,50 @@ class _HomeState extends State<Home> {
             ),
           );
         });
+  }
+
+  void _showCreateSpaceForm(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        final screenWidth = MediaQuery.of(context).size.width;
+        final screenHeight = MediaQuery.of(context).size.height;
+
+        return Container(
+          width: screenWidth,
+          height: screenHeight * 0.3,
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Create a Space'),
+              TextField(
+                decoration: InputDecoration(labelText: 'Topic'),
+              ),
+              DropdownButton<int>(
+                value: selectedOption,
+                onChanged: (int? newValue) {
+                  if (newValue != null) {
+                    setState(() {
+                       selectedOption = newValue;
+                       print(newValue);
+                    });
+                  }
+                },
+                items: <int>[1, 2, 3, 4]
+                    .map<DropdownMenuItem<int>>(
+                      (int value) => DropdownMenuItem<int>(
+                        value: value,
+                        child: Text(value.toString()),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -79,7 +126,9 @@ class _HomeState extends State<Home> {
                     child: Wrap(
                       children: [
                         ElevatedButton(
-                            onPressed: () {}, child: Text('English')),
+                            onPressed: () {
+                              
+                            }, child: Text('English')),
                         SizedBox(width: 10),
                         ElevatedButton(
                             onPressed: () {}, child: Text('Filipino')),

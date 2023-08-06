@@ -12,13 +12,23 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _counter = 0;
-  int selectedOption = 1;
+  final intGroupSizeItems = <int>[1, 2, 3, 4];
+  final strLanguageItems = <String>[
+    "English",
+    "Vietamese",
+    "Indonesian",
+    "Thai",
+    "Burmese",
+  ];
+  final strLevelProciencyItems = <String>[
+    "Beginner",
+    "Intermediate",
+    "Advanced"
+  ];
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  int? intGroupSizeSelected;
+  String? strLanguageSelected;
+  String? strLevelProciencySelected;
 
   void _showMenuForm(BuildContext context) {
     showModalBottomSheet(
@@ -47,7 +57,9 @@ class _HomeState extends State<Home> {
                 ),
                 SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: Text('Back'),
                 ),
               ],
@@ -65,40 +77,154 @@ class _HomeState extends State<Home> {
 
         return Container(
           width: screenWidth,
-          height: screenHeight * 0.3,
+          height: screenHeight * 0.5,
           padding: EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Create a Space'),
+              Text(
+                'Create a Space',
+                style: TextStyle(fontSize: 18),
+              ),
               TextField(
                 decoration: InputDecoration(labelText: 'Topic'),
               ),
-              DropdownButton<int>(
-                value: selectedOption,
-                onChanged: (int? newValue) {
-                  if (newValue != null) {
-                    setState(() {
-                       selectedOption = newValue;
-                       print(newValue);
-                    });
-                  }
-                },
-                items: <int>[1, 2, 3, 4]
-                    .map<DropdownMenuItem<int>>(
-                      (int value) => DropdownMenuItem<int>(
-                        value: value,
-                        child: Text(value.toString()),
-                      ),
-                    )
-                    .toList(),
+              SizedBox(height: 5),
+              Container(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black, width: 2),
+                ),
+                child: DropdownButton<int>(
+                  value: intGroupSizeSelected,
+                  isExpanded: true,
+                  iconSize: 36,
+                  icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+                  underline: Container(),
+                  style: TextStyle(
+                    // Set the style of the selected value
+                    color: Colors
+                        .black, // Change the color of the selected value text
+                    fontSize:
+                        14, // Adjust the font size of the selected value text
+                  ),
+                  items: [
+                    DropdownMenuItem<int>(
+                      value: null,
+                      child: Text('Select Group Size'),
+                    ),
+                    ...intGroupSizeItems.map(buildMenuItem).toList(),
+                  ],
+                  onChanged: (intGroupSizeSelected) => setState(() {
+                    this.intGroupSizeSelected = intGroupSizeSelected;
+                  }),
+                ),
               ),
+              SizedBox(height: 5),
+              Container(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black, width: 2),
+                ),
+                child: DropdownButton<String>(
+                  value: strLanguageSelected,
+                  isExpanded: true,
+                  iconSize: 36,
+                  icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+                  underline: Container(),
+                  //alignment: Alignment.center,
+                  style: TextStyle(
+                    // Set the style of the selected value
+                    color: Colors
+                        .black, // Change the color of the selected value text
+                    fontSize:
+                        14, // Adjust the font size of the selected value text
+                  ),
+                  items: [
+                    DropdownMenuItem<String>(
+                      value: null,
+                      child: Text('Select Language'),
+                    ),
+                    ...strLanguageItems.map(buildMenuItem).toList(),
+                  ],
+                  onChanged: (strLanguageSelected) => setState(() {
+                    this.strLanguageSelected = strLanguageSelected;
+                  }),
+                ),
+              ),
+              SizedBox(height: 5),
+              Container(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black, width: 2),
+                ),
+                child: DropdownButton<String>(
+                  value: strLevelProciencySelected,
+                  isExpanded: true,
+                  iconSize: 36,
+                  icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+                  underline: Container(),
+                  style: TextStyle(
+                    // Set the style of the selected value
+                    color: Colors
+                        .black, // Change the color of the selected value text
+                    fontSize:
+                        14, // Adjust the font size of the selected value text
+                  ),
+                  items: [
+                    DropdownMenuItem<String>(
+                      value: null,
+                      child: Text(
+                        'Select Level Proficiency',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                    ...strLevelProciencyItems.map(buildMenuItem).toList(),
+                  ],
+                  onChanged: (strLevelProciencyItems) => setState(() {
+                    this.strLevelProciencySelected = strLevelProciencySelected;
+                  }),
+                ),
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      //Navigator.pop(context);
+                    },
+                    child: Text('Create Space'),
+                  ),
+                ],
+              )
             ],
           ),
         );
       },
     );
   }
+
+  DropdownMenuItem<T> buildMenuItem<T>(T item) => DropdownMenuItem<T>(
+        value: item,
+        child: Text(
+          item.toString(),
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -126,9 +252,7 @@ class _HomeState extends State<Home> {
                     child: Wrap(
                       children: [
                         ElevatedButton(
-                            onPressed: () {
-                              
-                            }, child: Text('English')),
+                            onPressed: () {}, child: Text('English')),
                         SizedBox(width: 10),
                         ElevatedButton(
                             onPressed: () {}, child: Text('Filipino')),

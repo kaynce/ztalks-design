@@ -9,6 +9,14 @@ class Space extends StatefulWidget {
 }
 
 class _SpaceState extends State<Space> {
+  var isMicrophoneOn = false;
+
+  void toggleMicrophone(){
+    setState(() {
+      isMicrophoneOn = !isMicrophoneOn;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,11 +85,14 @@ class _SpaceState extends State<Space> {
                                               color: Colors.grey[300],
                                               shape: BoxShape.circle,
                                             ),
-                                            child: Icon(
-                                              FontAwesomeIcons.microphoneSlash,
-                                              color: Colors.black,
-                                              size:
-                                                  16, // Use 'size' instead of 'iconSize'
+                                            child: GestureDetector(
+                                              onTap: toggleMicrophone,
+                                              child: Icon(
+                                                isMicrophoneOn ? FontAwesomeIcons.microphone: FontAwesomeIcons.microphoneSlash,
+                                                color: Colors.black,
+                                                size:
+                                                    16, // Use 'size' instead of 'iconSize'
+                                              ),
                                             ),
                                           ),
                                         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ztalks/pages/home/space.dart';
+import 'package:ztalks/pages/home/FilterLanguage.dart';
+import 'package:ztalks/pages/home/Space.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
@@ -226,6 +227,10 @@ class _HomeState extends State<Home> {
         ),
       );
 
+  List<String> displayedLanguages = [];
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,7 +257,9 @@ class _HomeState extends State<Home> {
                     child: Wrap(
                       children: [
                         ElevatedButton(
-                            onPressed: () {}, child: Text('English')),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => FilterLanguage()));
+                            }, child: Text('English')),
                         SizedBox(width: 10),
                         ElevatedButton(
                             onPressed: () {}, child: Text('Filipino')),

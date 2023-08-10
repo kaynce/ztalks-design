@@ -229,7 +229,69 @@ class _HomeState extends State<Home> {
 
   List<String> displayedLanguages = [];
 
+  final List<Map<String, String>> allItems = [
+    {
+      'title': 'English for the better future',
+      'language': 'English',
+      'Proficiency': 'Intermediate'
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'French',
+      'Proficiency': 'Beginner'
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'French',
+      'Proficiency': 'Beginner'
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'French',
+      'Proficiency': 'Beginner'
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'French',
+      'Proficiency': 'Beginner'
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'French',
+      'Proficiency': 'Beginner'
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'French',
+      'Proficiency': 'Beginner'
+    },
+  ];
 
+  List<Map<String, String>> displayedItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    displayedItems = List.from(allItems);
+  }
+
+  void filterItems(String filter) {
+    setState(() {
+      if (filter.isEmpty) {
+        displayedItems = List.from(allItems);
+      } else {
+        displayedItems = allItems
+            .where((item) =>
+                item['language']!
+                    .toLowerCase()
+                    .contains(filter.toLowerCase()) ||
+                item['Proficiency']!
+                    .toLowerCase()
+                    .contains(filter.toLowerCase()))
+            .toList();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -258,8 +320,12 @@ class _HomeState extends State<Home> {
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => FilterLanguage()));
-                            }, child: Text('English')),
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FilterLanguage()));
+                            },
+                            child: Text('English')),
                         SizedBox(width: 10),
                         ElevatedButton(
                             onPressed: () {}, child: Text('Filipino')),
@@ -285,111 +351,112 @@ class _HomeState extends State<Home> {
                           Text('Explore Spaces'),
                         ],
                       ),
-                      Wrap(
-                        children: [
-                          for (int i = 0; i < 10; i++)
-                            Container(
-                              margin: EdgeInsets.only(bottom: 5),
-                              height: 130,
-                              child: Card(
-                                elevation: 4,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0)),
-                                child: Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                CircleAvatar(
-                                                  backgroundImage: AssetImage(
-                                                      'assets/img/1.jpg'),
-                                                  backgroundColor:
-                                                      Colors.lightBlue,
-                                                  radius: 20,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                        'English for the better future'),
-                                                    Text(
-                                                        'English - Proficient'),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: displayedItems.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.only(bottom: 5),
+                            height: 130,
+                            child: Card(
+                              elevation: 4,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              child: Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundImage: AssetImage(
+                                                    'assets/img/1.jpg'),
+                                                backgroundColor:
+                                                    Colors.lightBlue,
+                                                radius: 20,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(displayedItems[index]
+                                                      ['title']!),
+                                                  Text(
+                                                      '${displayedItems[index]['language']} - ${displayedItems[index]['Proficiency']}'),
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                          InkWell(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Space(),
-                                                  ));
-                                            },
-                                            child: Container(
-                                              width: 30,
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.green,
-                                                  shape: BoxShape.circle),
-                                              child: Center(
-                                                child: Icon(
-                                                  Icons.phone,
-                                                  color: Colors.white,
-                                                  size: 20,
-                                                ),
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => Space(),
+                                                ));
+                                          },
+                                          child: Container(
+                                            width: 30,
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                shape: BoxShape.circle),
+                                            child: Center(
+                                              child: Icon(
+                                                Icons.phone,
+                                                color: Colors.white,
+                                                size: 20,
                                               ),
                                             ),
                                           ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 15),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      child: Row(
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundImage:
+                                                AssetImage('assets/img/2.jpg'),
+                                            backgroundColor: Colors.lightBlue,
+                                            radius: 20,
+                                          ),
+                                          SizedBox(width: 5),
+                                          CircleAvatar(
+                                            backgroundImage:
+                                                AssetImage('assets/img/3.jpg'),
+                                            backgroundColor: Colors.lightBlue,
+                                            radius: 20,
+                                          ),
+                                          SizedBox(width: 5),
+                                          CircleAvatar(
+                                            backgroundImage:
+                                                AssetImage('assets/img/4.jpg'),
+                                            backgroundColor: Colors.lightBlue,
+                                            radius: 20,
+                                          ),
+                                          SizedBox(width: 5),
                                         ],
                                       ),
-                                      SizedBox(height: 15),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20),
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundImage: AssetImage(
-                                                  'assets/img/2.jpg'),
-                                              backgroundColor: Colors.lightBlue,
-                                              radius: 20,
-                                            ),
-                                            SizedBox(width: 5),
-                                            CircleAvatar(
-                                              backgroundImage: AssetImage(
-                                                  'assets/img/3.jpg'),
-                                              backgroundColor: Colors.lightBlue,
-                                              radius: 20,
-                                            ),
-                                            SizedBox(width: 5),
-                                            CircleAvatar(
-                                              backgroundImage: AssetImage(
-                                                  'assets/img/4.jpg'),
-                                              backgroundColor: Colors.lightBlue,
-                                              radius: 20,
-                                            ),
-                                            SizedBox(width: 5),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                        ],
-                      ),
+                          );
+                        },
+                      )
                     ],
                   ),
                 ),

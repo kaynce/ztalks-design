@@ -227,60 +227,125 @@ class _HomeState extends State<Home> {
         ),
       );
 
-  List<String> displayedLanguages = [];
+  List<String> _displayedLanguages = [];
+  List<String> _uniqueLanguages = [];
+  List<Map<String, dynamic>> _displayedItems = [];
 
-  final List<Map<String, String>> allItems = [
+  final List<Map<String, dynamic>> _allItems = [
     {
       'title': 'English for the better future',
       'language': 'English',
-      'Proficiency': 'Intermediate'
+      'Proficiency': 'Advanced',
+      'strUserId': '00001',
+      'audience': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'Indonesian',
+      'Proficiency': 'Advanced',
+      'strUserId': '00002',
+      'audience': ['00001', '00002', '00003'],
     },
     {
       'title': 'French for the better future',
       'language': 'French',
-      'Proficiency': 'Beginner'
+      'Proficiency': 'Upper Beginner',
+      'strUserId': '00003',
+      'audience': ['00001', '00002', '00003'],
     },
     {
       'title': 'French for the better future',
-      'language': 'French',
-      'Proficiency': 'Beginner'
+      'language': 'Vietamese',
+      'Proficiency': 'Beginner',
+      'strUserId': '00004',
+      'audience': ['00001', '00002', '00003'],
     },
     {
       'title': 'French for the better future',
-      'language': 'French',
-      'Proficiency': 'Beginner'
+      'language': 'Thai',
+      'Proficiency': 'Upper Intermediate',
+      'strUserId': '00005',
+      'audience': ['00001', '00002', '00003'],
     },
     {
       'title': 'French for the better future',
-      'language': 'French',
-      'Proficiency': 'Beginner'
+      'language': 'Malay',
+      'Proficiency': 'Advanced',
+      'strUserId': '00006',
+      'audience': ['00001', '00002', '00003'],
     },
     {
       'title': 'French for the better future',
-      'language': 'French',
-      'Proficiency': 'Beginner'
+      'language': 'Filipino',
+      'Proficiency': 'Intermediate',
+      'strUserId': '00007',
+      'audience': ['00001', '00002', '00003'],
     },
     {
       'title': 'French for the better future',
-      'language': 'French',
-      'Proficiency': 'Beginner'
+      'language': 'Filipino',
+      'Proficiency': 'Beginner',
+      'strUserId': '00008',
+      'audience': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'Filipino',
+      'Proficiency': 'Upper Beginner',
+      'strUserId': '00009',
+      'audience': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'Filipino',
+      'Proficiency': 'Upper Beginner',
+      'strUserId': '00010',
+      'audience': ['00001', '00002', '00003'],
     },
   ];
-
-  List<Map<String, String>> displayedItems = [];
+  List<Map<String, String>> ztalkers = [
+    {'strUserId': '00001', 'strImagePath': 'user_1.jpeg'},
+    {'strUserId': '00002', 'strImagePath': 'user_2.jpeg'},
+    {'strUserId': '00003', 'strImagePath': 'user_3.jpeg'},
+    {'strUserId': '00004', 'strImagePath': 'user_4.jpeg'},
+    {'strUserId': '00005', 'strImagePath': 'user_5.jpeg'},
+    {'strUserId': '00006', 'strImagePath': 'user_6.jpeg'},
+    {'strUserId': '00007', 'strImagePath': 'user_7.jpeg'},
+    {'strUserId': '00008', 'strImagePath': 'user_8.jpeg'},
+    {'strUserId': '00009', 'strImagePath': 'user_9.jpeg'},
+    {'strUserId': '00010', 'strImagePath': 'user_10.jpeg'},
+  ];
 
   @override
   void initState() {
     super.initState();
-    displayedItems = List.from(allItems);
+    _allItems.sort((a, b) {
+      var languageA = a['language'] ?? '';
+      var languageB = b['language'] ?? '';
+
+      if (languageA == 'English') {
+        return -2; // "English" comes first
+      } else if (languageB == 'English') {
+        return 2; // "English" comes first
+      } else if (languageA == 'Filipino') {
+        return -1; // "Filipino" comes second
+      } else if (languageB == 'Filipino') {
+        return 1; // "Filipino" comes second
+      }
+
+      return languageB
+          .compareTo(languageA); // Sort other languages in descending order
+    });
+    _displayedItems = List.from(_allItems);
+    filterUniqueLanguages();
   }
 
   void filterItems(String filter) {
     setState(() {
       if (filter.isEmpty) {
-        displayedItems = List.from(allItems);
+        _displayedItems = List.from(_allItems);
       } else {
-        displayedItems = allItems
+        _displayedItems = _allItems
             .where((item) =>
                 item['language']!
                     .toLowerCase()
@@ -290,6 +355,19 @@ class _HomeState extends State<Home> {
                     .contains(filter.toLowerCase()))
             .toList();
       }
+    });
+  }
+
+  void filterUniqueLanguages() {
+    Set<String> languagesSet = {};
+
+    for (var item in _allItems) {
+      var language = item['language'];
+      languagesSet.add(language ?? '');
+    }
+
+    setState(() {
+      _uniqueLanguages.addAll(languagesSet.toList());
     });
   }
 
@@ -318,26 +396,23 @@ class _HomeState extends State<Home> {
                     padding: EdgeInsets.all(10),
                     child: Wrap(
                       children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => FilterLanguage()));
-                            },
-                            child: Text('English')),
-                        SizedBox(width: 10),
-                        ElevatedButton(
-                            onPressed: () {}, child: Text('Filipino')),
-                        SizedBox(width: 10),
-                        ElevatedButton(
-                            onPressed: () {}, child: Text('Indonesian')),
-                        SizedBox(width: 10),
-                        ElevatedButton(
-                            onPressed: () {}, child: Text('Vietamese')),
-                        SizedBox(width: 10),
-                        ElevatedButton(onPressed: () {}, child: Text('Thai')),
-                        SizedBox(width: 10),
+                        // ElevatedButton(
+                        //     onPressed: () {
+                        //       Navigator.push(
+                        //           context,
+                        //           MaterialPageRoute(
+                        //               builder: (context) => FilterLanguage()));
+                        //     },
+                        //     child: Text('English')),
+
+                        for (var i = 0; i < _uniqueLanguages.length; i++)
+                          Container(
+                            padding: EdgeInsets.only(left: 5, right: 5),
+                            child: ElevatedButton(
+                              onPressed: () => filterItems(_uniqueLanguages[i]),
+                              child: Text(_uniqueLanguages[i]),
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -354,8 +429,16 @@ class _HomeState extends State<Home> {
                       ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: displayedItems.length,
+                        itemCount: _displayedItems.length,
                         itemBuilder: (context, index) {
+
+                          final item = _displayedItems[index];
+                          final userId = item['strUserId']!;
+                          final imagePath = ztalkers.firstWhere(
+                              (ztalker) => ztalker['strUserId'] == userId,
+                              orElse: () =>
+                                  {'strImagePath': ''})['strImagePath'];
+
                           return Container(
                             margin: EdgeInsets.only(bottom: 5),
                             height: 130,
@@ -375,8 +458,7 @@ class _HomeState extends State<Home> {
                                           child: Row(
                                             children: [
                                               CircleAvatar(
-                                                backgroundImage: AssetImage(
-                                                    'assets/img/1.jpg'),
+                                                backgroundImage: AssetImage('assets/img/$imagePath'),
                                                 backgroundColor:
                                                     Colors.lightBlue,
                                                 radius: 20,
@@ -386,10 +468,10 @@ class _HomeState extends State<Home> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(displayedItems[index]
+                                                  Text(_displayedItems[index]
                                                       ['title']!),
                                                   Text(
-                                                      '${displayedItems[index]['language']} - ${displayedItems[index]['Proficiency']}'),
+                                                      '${_displayedItems[index]['language']} - ${_displayedItems[index]['Proficiency']}'),
                                                 ],
                                               ),
                                             ],

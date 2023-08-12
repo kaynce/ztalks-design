@@ -304,16 +304,16 @@ class _HomeState extends State<Home> {
     },
   ];
   List<Map<String, String>> ztalkers = [
-    {'strUserId': '00001', 'strImagePath': 'user_1.jpeg'},
-    {'strUserId': '00002', 'strImagePath': 'user_2.jpeg'},
-    {'strUserId': '00003', 'strImagePath': 'user_3.jpeg'},
-    {'strUserId': '00004', 'strImagePath': 'user_4.jpeg'},
-    {'strUserId': '00005', 'strImagePath': 'user_5.jpeg'},
-    {'strUserId': '00006', 'strImagePath': 'user_6.jpeg'},
-    {'strUserId': '00007', 'strImagePath': 'user_7.jpeg'},
-    {'strUserId': '00008', 'strImagePath': 'user_8.jpeg'},
-    {'strUserId': '00009', 'strImagePath': 'user_9.jpeg'},
-    {'strUserId': '00010', 'strImagePath': 'user_10.jpeg'},
+    {'strUserId': '00001', 'strImagePath': 'speaker_1.jpeg'},
+    {'strUserId': '00002', 'strImagePath': 'speaker_2.jpeg'},
+    {'strUserId': '00003', 'strImagePath': 'speaker_3.jpeg'},
+    {'strUserId': '00004', 'strImagePath': 'speaker_4.jpeg'},
+    {'strUserId': '00005', 'strImagePath': 'speaker_5.jpeg'},
+    {'strUserId': '00006', 'strImagePath': 'speaker_6.jpeg'},
+    {'strUserId': '00007', 'strImagePath': 'speaker_7.jpeg'},
+    {'strUserId': '00008', 'strImagePath': 'speaker_8.jpeg'},
+    {'strUserId': '00009', 'strImagePath': 'speaker_9.jpeg'},
+    {'strUserId': '00010', 'strImagePath': 'speaker_10.jpeg'},
   ];
 
   @override
@@ -458,7 +458,7 @@ class _HomeState extends State<Home> {
                                           child: Row(
                                             children: [
                                               CircleAvatar(
-                                                backgroundImage: AssetImage('assets/img/$imagePath'),
+                                                backgroundImage: AssetImage('assets/img/speakers/$imagePath'),
                                                 backgroundColor:
                                                     Colors.lightBlue,
                                                 radius: 20,

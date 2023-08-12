@@ -227,80 +227,79 @@ class _HomeState extends State<Home> {
         ),
       );
 
-  List<String> _displayedLanguages = [];
   List<String> _uniqueLanguages = [];
   List<Map<String, dynamic>> _displayedItems = [];
 
-  final List<Map<String, dynamic>> _allItems = [
+   final List<Map<String, dynamic>> _allItems = [
     {
       'title': 'English for the better future',
       'language': 'English',
       'Proficiency': 'Advanced',
       'strUserId': '00001',
-      'audience': ['00001', '00002', '00003'],
+      'audienceId': ['00001', '00002', '00003'],
     },
     {
       'title': 'French for the better future',
       'language': 'Indonesian',
       'Proficiency': 'Advanced',
       'strUserId': '00002',
-      'audience': ['00001', '00002', '00003'],
+      'audienceId': ['00004', '00005', '00006'],
     },
     {
       'title': 'French for the better future',
       'language': 'French',
       'Proficiency': 'Upper Beginner',
       'strUserId': '00003',
-      'audience': ['00001', '00002', '00003'],
+      'audienceId': ['00003', '00001', '00002'],
     },
     {
       'title': 'French for the better future',
       'language': 'Vietamese',
       'Proficiency': 'Beginner',
       'strUserId': '00004',
-      'audience': ['00001', '00002', '00003'],
+      'audienceId': ['00002', '00003', '00001'],
     },
     {
       'title': 'French for the better future',
       'language': 'Thai',
       'Proficiency': 'Upper Intermediate',
       'strUserId': '00005',
-      'audience': ['00001', '00002', '00003'],
+      'audienceId': ['00002', '00001', '00003'],
     },
     {
       'title': 'French for the better future',
       'language': 'Malay',
       'Proficiency': 'Advanced',
       'strUserId': '00006',
-      'audience': ['00001', '00002', '00003'],
+      'audienceId': ['00002', '00003', '00001'],
     },
     {
       'title': 'French for the better future',
       'language': 'Filipino',
       'Proficiency': 'Intermediate',
       'strUserId': '00007',
-      'audience': ['00001', '00002', '00003'],
+      'audienceId': ['00001', '00002', '00003'],
     },
     {
       'title': 'French for the better future',
       'language': 'Filipino',
       'Proficiency': 'Beginner',
       'strUserId': '00008',
-      'audience': ['00001', '00002', '00003'],
+      'audienceId': ['00002', '00001', '00003'],
     },
     {
       'title': 'French for the better future',
       'language': 'Filipino',
       'Proficiency': 'Upper Beginner',
       'strUserId': '00009',
-      'audience': ['00001', '00002', '00003'],
+      'audienceId': ['00002', '00003', '00001'],
     },
     {
       'title': 'French for the better future',
       'language': 'Filipino',
       'Proficiency': 'Upper Beginner',
       'strUserId': '00010',
-      'audience': ['00001', '00002', '00003'],
+      'audienceId': ['00003', '00001', '00002'],
     },
   ];
   List<Map<String, String>> ztalkers = [
@@ -314,6 +313,17 @@ class _HomeState extends State<Home> {
     {'strUserId': '00008', 'strImagePath': 'speaker_8.jpeg'},
     {'strUserId': '00009', 'strImagePath': 'speaker_9.jpeg'},
     {'strUserId': '00010', 'strImagePath': 'speaker_10.jpeg'},
+
+    {'strUserId': '00011', 'strImagePath': 'speaker_11.jpeg'},
+    {'strUserId': '00012', 'strImagePath': 'speaker_12.jpeg'},
+    {'strUserId': '00013', 'strImagePath': 'speaker_13.jpeg'},
+    {'strUserId': '00014', 'strImagePath': 'speaker_14.jpeg'},
+    {'strUserId': '00015', 'strImagePath': 'speaker_15.jpeg'},
+    {'strUserId': '00016', 'strImagePath': 'speaker_16.jpeg'},
+    {'strUserId': '00017', 'strImagePath': 'speaker_17.jpeg'},
+    {'strUserId': '00018', 'strImagePath': 'speaker_18.jpeg'},
+    {'strUserId': '00018', 'strImagePath': 'speaker_19.jpeg'},
+    {'strUserId': '00020', 'strImagePath': 'speaker_20.jpeg'},
   ];
 
   @override
@@ -337,6 +347,8 @@ class _HomeState extends State<Home> {
           .compareTo(languageA); // Sort other languages in descending order
     });
     _displayedItems = List.from(_allItems);
+
+    //Filter unique languages for buttons
     filterUniqueLanguages();
   }
 
@@ -404,7 +416,13 @@ class _HomeState extends State<Home> {
                         //               builder: (context) => FilterLanguage()));
                         //     },
                         //     child: Text('English')),
-
+                        Container(
+                          padding: EdgeInsets.only(left: 5, right: 5),
+                          child: ElevatedButton(
+                            onPressed: () => filterItems(''),
+                            child: Text('All'),
+                          ),
+                        ),
                         for (var i = 0; i < _uniqueLanguages.length; i++)
                           Container(
                             padding: EdgeInsets.only(left: 5, right: 5),
@@ -434,10 +452,24 @@ class _HomeState extends State<Home> {
 
                           final item = _displayedItems[index];
                           final userId = item['strUserId']!;
-                          final imagePath = ztalkers.firstWhere(
+                          final speakerImagePath = ztalkers.firstWhere(
                               (ztalker) => ztalker['strUserId'] == userId,
                               orElse: () =>
                                   {'strImagePath': ''})['strImagePath'];
+
+                          //Audience id
+                          final audienceIds = _displayedItems[index]['audienceId'] as List<String>;
+                          final audienceImagePaths = <String>[];
+
+                          for (final userId in audienceIds) {
+                            final ztalker = ztalkers.firstWhere(
+                                (ztalker) => ztalker['strUserId'] == userId,
+                                orElse: () => {'strImagePath': ''});
+
+                            final audienceImagePath =
+                                ztalker['strImagePath'] ?? '';
+                            audienceImagePaths.add(audienceImagePath);
+                          }
 
                           return Container(
                             margin: EdgeInsets.only(bottom: 5),
@@ -458,7 +490,8 @@ class _HomeState extends State<Home> {
                                           child: Row(
                                             children: [
                                               CircleAvatar(
-                                                backgroundImage: AssetImage('assets/img/speakers/$imagePath'),
+                                                backgroundImage: AssetImage(
+                                                    'assets/img/ztalkers/$speakerImagePath'),
                                                 backgroundColor:
                                                     Colors.lightBlue,
                                                 radius: 20,
@@ -508,27 +541,18 @@ class _HomeState extends State<Home> {
                                           EdgeInsets.symmetric(horizontal: 20),
                                       child: Row(
                                         children: [
-                                          CircleAvatar(
-                                            backgroundImage:
-                                                AssetImage('assets/img/2.jpg'),
-                                            backgroundColor: Colors.lightBlue,
-                                            radius: 20,
-                                          ),
-                                          SizedBox(width: 5),
-                                          CircleAvatar(
-                                            backgroundImage:
-                                                AssetImage('assets/img/3.jpg'),
-                                            backgroundColor: Colors.lightBlue,
-                                            radius: 20,
-                                          ),
-                                          SizedBox(width: 5),
-                                          CircleAvatar(
-                                            backgroundImage:
-                                                AssetImage('assets/img/4.jpg'),
-                                            backgroundColor: Colors.lightBlue,
-                                            radius: 20,
-                                          ),
-                                          SizedBox(width: 5),
+                                          for (var path in audienceImagePaths)
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 5, right: 5),
+                                              child: CircleAvatar(
+                                                backgroundImage: AssetImage(
+                                                    'assets/img/ztalkers/$path'),
+                                                backgroundColor:
+                                                    Colors.lightBlue,
+                                                radius: 20,
+                                              ),
+                                            ),
                                         ],
                                       ),
                                     ),

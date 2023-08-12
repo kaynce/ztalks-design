@@ -2,6 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:ztalks/pages/home/FilterLanguage.dart';
 import 'package:ztalks/pages/home/Space.dart';
 
+//Use stream for filtering
+/*
+  import 'package:your_project/helpers/filter_class.dart';
+
+class AnotherClass {
+  void listenToFilteredItems() {
+    final FilterClass filterInstance = FilterClass();
+    filterInstance.filteredItemsStream.listen((filteredItems) {
+      // Do something with filteredItems
+    });
+  }
+}
+*/
+
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
 
@@ -230,7 +244,7 @@ class _HomeState extends State<Home> {
   List<String> _uniqueLanguages = [];
   List<Map<String, dynamic>> _displayedItems = [];
 
-   final List<Map<String, dynamic>> _allItems = [
+  final List<Map<String, dynamic>> _allItems = [
     {
       'title': 'English for the better future',
       'language': 'English',
@@ -301,6 +315,139 @@ class _HomeState extends State<Home> {
       'strUserId': '00010',
       'audienceId': ['00003', '00001', '00002'],
     },
+    {
+      'title': 'English for the better future',
+      'language': 'English',
+      'Proficiency': 'Advanced',
+      'strUserId': '00001',
+      'audienceId': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'English for the better future',
+      'language': 'English',
+      'Proficiency': 'Advanced',
+      'strUserId': '00001',
+      'audienceId': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'English for the better future',
+      'language': 'English',
+      'Proficiency': 'Advanced',
+      'strUserId': '00001',
+      'audienceId': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'English for the better future',
+      'language': 'English',
+      'Proficiency': 'Advanced',
+      'strUserId': '00001',
+      'audienceId': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'English for the better future',
+      'language': 'English',
+      'Proficiency': 'Advanced',
+      'strUserId': '00001',
+      'audienceId': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'English for the better future',
+      'language': 'English',
+      'Proficiency': 'Advanced',
+      'strUserId': '00001',
+      'audienceId': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'English for the better future',
+      'language': 'English',
+      'Proficiency': 'Advanced',
+      'strUserId': '00001',
+      'audienceId': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'English for the better future',
+      'language': 'English',
+      'Proficiency': 'Advanced',
+      'strUserId': '00001',
+      'audienceId': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'English for the better future',
+      'language': 'English',
+      'Proficiency': 'Advanced',
+      'strUserId': '00001',
+      'audienceId': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'English for the better future',
+      'language': 'English',
+      'Proficiency': 'Advanced',
+      'strUserId': '00001',
+      'audienceId': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'Indonesian',
+      'Proficiency': 'Advanced',
+      'strUserId': '00002',
+      'audienceId': ['00004', '00005', '00006'],
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'French',
+      'Proficiency': 'Upper Beginner',
+      'strUserId': '00003',
+      'audienceId': ['00003', '00001', '00002'],
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'Vietamese',
+      'Proficiency': 'Beginner',
+      'strUserId': '00004',
+      'audienceId': ['00002', '00003', '00001'],
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'Thai',
+      'Proficiency': 'Upper Intermediate',
+      'strUserId': '00005',
+      'audienceId': ['00002', '00001', '00003'],
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'Malay',
+      'Proficiency': 'Advanced',
+      'strUserId': '00006',
+      'audienceId': ['00002', '00003', '00001'],
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'Filipino',
+      'Proficiency': 'Intermediate',
+      'strUserId': '00007',
+      'audienceId': ['00001', '00002', '00003'],
+    },
+    {
+      'title': 'Hello',
+      'language': 'Filipino',
+      'Proficiency': 'Beginner',
+      'strUserId': '00008',
+      'audienceId': ['00002', '00001', '00003'],
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'Filipino',
+      'Proficiency': 'Upper Beginner',
+      'strUserId': '00009',
+      'audienceId': ['00002', '00003', '00001'],
+    },
+    {
+      'title': 'French for the better future',
+      'language': 'Filipino',
+      'Proficiency': 'Upper Beginner',
+      'strUserId': '00010',
+      'audienceId': ['00003', '00001', '00002'],
+    },
   ];
   List<Map<String, String>> ztalkers = [
     {'strUserId': '00001', 'strImagePath': 'speaker_1.jpeg'},
@@ -313,7 +460,6 @@ class _HomeState extends State<Home> {
     {'strUserId': '00008', 'strImagePath': 'speaker_8.jpeg'},
     {'strUserId': '00009', 'strImagePath': 'speaker_9.jpeg'},
     {'strUserId': '00010', 'strImagePath': 'speaker_10.jpeg'},
-
     {'strUserId': '00011', 'strImagePath': 'speaker_11.jpeg'},
     {'strUserId': '00012', 'strImagePath': 'speaker_12.jpeg'},
     {'strUserId': '00013', 'strImagePath': 'speaker_13.jpeg'},
@@ -325,10 +471,19 @@ class _HomeState extends State<Home> {
     {'strUserId': '00018', 'strImagePath': 'speaker_19.jpeg'},
     {'strUserId': '00020', 'strImagePath': 'speaker_20.jpeg'},
   ];
+  late ScrollController _scrollController;
+  var languageClick = 'All';
+
+  void changeLanguage(language) {
+    setState(() {
+      languageClick = language;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+
     _allItems.sort((a, b) {
       var languageA = a['language'] ?? '';
       var languageB = b['language'] ?? '';
@@ -346,18 +501,46 @@ class _HomeState extends State<Home> {
       return languageB
           .compareTo(languageA); // Sort other languages in descending order
     });
-    _displayedItems = List.from(_allItems);
+
+    //Displayed only 5 container
+    _displayedItems = List.from(_allItems.take(10));
 
     //Filter unique languages for buttons
     filterUniqueLanguages();
+
+    _scrollController = ScrollController();
+
+    //Not working
+    _scrollController.addListener(() {
+      print('Working 1');
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        // Load more items when scrolled to the bottom
+        loadMoreItems();
+      }
+    });
+    print('Working 2');
+  }
+
+  void searchQuery(String filter) {
+    setState(() {
+      _displayedItems = _allItems
+          .where((item) =>
+              item['title']!.toLowerCase().contains(filter.toLowerCase()) ||
+              item['language']!.toLowerCase().contains(filter.toLowerCase()) ||
+              item['Proficiency']!.toLowerCase().contains(filter.toLowerCase()))
+          .toList();
+    });
   }
 
   void filterItems(String filter) {
     setState(() {
       if (filter.isEmpty) {
-        _displayedItems = List.from(_allItems);
+        reachMaxItems = false;
+        _displayedItems = List.from(_allItems.take(10));
       } else {
         _displayedItems = _allItems
+            //.take(10)
             .where((item) =>
                 item['language']!
                     .toLowerCase()
@@ -366,6 +549,28 @@ class _HomeState extends State<Home> {
                     .toLowerCase()
                     .contains(filter.toLowerCase()))
             .toList();
+      }
+
+      if (filter.isEmpty) {
+        changeLanguage('All');
+      } else {
+        changeLanguage(filter);
+      }
+    });
+  }
+
+  var reachMaxItems = false;
+
+  void loadMoreItems() {
+    setState(() {
+      final int currentLength = _displayedItems.length;
+      final int nextIndex = currentLength + 10;
+
+      if (nextIndex <= _allItems.length) {
+        reachMaxItems = false;
+        _displayedItems.addAll(_allItems.getRange(currentLength, nextIndex));
+      } else {
+        reachMaxItems = true;
       }
     });
   }
@@ -396,11 +601,15 @@ class _HomeState extends State<Home> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                const TextField(
+                TextField(
                   decoration: InputDecoration(
                     labelText: 'Search for a space/title...',
                     prefixIcon: Icon(Icons.search),
                   ),
+                  onSubmitted: (String input) {
+                    //List<String> searchWords = input.split(',');
+                    searchQuery(input);
+                  },
                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -416,6 +625,7 @@ class _HomeState extends State<Home> {
                         //               builder: (context) => FilterLanguage()));
                         //     },
                         //     child: Text('English')),
+
                         Container(
                           padding: EdgeInsets.only(left: 5, right: 5),
                           child: ElevatedButton(
@@ -441,15 +651,15 @@ class _HomeState extends State<Home> {
                     children: [
                       Row(
                         children: [
-                          Text('Explore Spaces'),
+                          Text('Explore Spaces' + ' - ' + '$languageClick'),
                         ],
                       ),
                       ListView.builder(
+                        controller: _scrollController,
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        //physics: NeverScrollableScrollPhysics(),
                         itemCount: _displayedItems.length,
                         itemBuilder: (context, index) {
-
                           final item = _displayedItems[index];
                           final userId = item['strUserId']!;
                           final speakerImagePath = ztalkers.firstWhere(
@@ -458,7 +668,8 @@ class _HomeState extends State<Home> {
                                   {'strImagePath': ''})['strImagePath'];
 
                           //Audience id
-                          final audienceIds = _displayedItems[index]['audienceId'] as List<String>;
+                          final audienceIds = _displayedItems[index]
+                              ['audienceId'] as List<String>;
                           final audienceImagePaths = <String>[];
 
                           for (final userId in audienceIds) {
@@ -562,7 +773,15 @@ class _HomeState extends State<Home> {
                             ),
                           );
                         },
-                      )
+                      ),
+                      if (reachMaxItems == false)
+                        Container(
+                          padding: EdgeInsets.only(left: 5, right: 5),
+                          child: ElevatedButton(
+                            onPressed: () => loadMoreItems(),
+                            child: Text('Load more'),
+                          ),
+                        ),
                     ],
                   ),
                 ),

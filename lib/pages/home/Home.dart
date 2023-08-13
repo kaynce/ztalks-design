@@ -1,476 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:ztalks/pages/home/FilterLanguage.dart';
 import 'package:ztalks/pages/home/Space.dart';
+import 'package:ztalks/pages/home/modal/menu_bar_modal.dart';
+import 'package:ztalks/api/data.dart';
 
-//Use stream for filtering
-/*
-  import 'package:your_project/helpers/filter_class.dart';
-
-class AnotherClass {
-  void listenToFilteredItems() {
-    final FilterClass filterInstance = FilterClass();
-    filterInstance.filteredItemsStream.listen((filteredItems) {
-      // Do something with filteredItems
-    });
-  }
-}
-*/
+//Use bloc for filtering not StreamController said chatgpt
+//typedef ShowMenuCallback = void Function(BuildContext context);
+//typedef ShowMenuModalCallback = void Function(BuildContext context);
 
 class Home extends StatefulWidget {
-  const Home({super.key, required this.title});
-
+  //final VoidCallback showMenuFormCallback;
   final String title;
+  //final ShowMenuModalCallback? showMenuModalCallback;
+
+  //const Home(
+  //{super.key, required this.title, required this.showMenuModalCallback});
+  const Home({super.key, required this.title});
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  int _counter = 0;
-  final intGroupSizeItems = <int>[1, 2, 3, 4];
-  final strLanguageItems = <String>[
-    "English",
-    "Vietamese",
-    "Indonesian",
-    "Thai",
-    "Burmese",
-  ];
-  final strLevelProciencyItems = <String>[
-    "Beginner",
-    "Intermediate",
-    "Advanced"
-  ];
-
-  int? intGroupSizeSelected;
-  String? strLanguageSelected;
-  String? strLevelProciencySelected;
-
-  void _showMenuForm(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          final screenWidth = MediaQuery.of(context).size.width;
-          final screenHeight = MediaQuery.of(context).size.height;
-
-          return Container(
-            width: screenWidth,
-            height: screenHeight * 0.3,
-            padding: EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min, //Not working
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    _showCreateSpaceForm(context);
-                  },
-                  child: Text('Create a space'),
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('Donate/Buy me a coffee'),
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('Back'),
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
-  void _showCreateSpaceForm(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        final screenWidth = MediaQuery.of(context).size.width;
-        final screenHeight = MediaQuery.of(context).size.height;
-
-        return Container(
-          width: screenWidth,
-          height: screenHeight * 0.5,
-          padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Create a Space',
-                style: TextStyle(fontSize: 18),
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: 'Topic'),
-              ),
-              SizedBox(height: 5),
-              Container(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.black, width: 2),
-                ),
-                child: DropdownButton<int>(
-                  value: intGroupSizeSelected,
-                  isExpanded: true,
-                  iconSize: 36,
-                  icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                  underline: Container(),
-                  style: TextStyle(
-                    // Set the style of the selected value
-                    color: Colors
-                        .black, // Change the color of the selected value text
-                    fontSize:
-                        14, // Adjust the font size of the selected value text
-                  ),
-                  items: [
-                    DropdownMenuItem<int>(
-                      value: null,
-                      child: Text('Select Group Size'),
-                    ),
-                    ...intGroupSizeItems.map(buildMenuItem).toList(),
-                  ],
-                  onChanged: (intGroupSizeSelected) => setState(() {
-                    this.intGroupSizeSelected = intGroupSizeSelected;
-                  }),
-                ),
-              ),
-              SizedBox(height: 5),
-              Container(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.black, width: 2),
-                ),
-                child: DropdownButton<String>(
-                  value: strLanguageSelected,
-                  isExpanded: true,
-                  iconSize: 36,
-                  icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                  underline: Container(),
-                  //alignment: Alignment.center,
-                  style: TextStyle(
-                    // Set the style of the selected value
-                    color: Colors
-                        .black, // Change the color of the selected value text
-                    fontSize:
-                        14, // Adjust the font size of the selected value text
-                  ),
-                  items: [
-                    DropdownMenuItem<String>(
-                      value: null,
-                      child: Text('Select Language'),
-                    ),
-                    ...strLanguageItems.map(buildMenuItem).toList(),
-                  ],
-                  onChanged: (strLanguageSelected) => setState(() {
-                    this.strLanguageSelected = strLanguageSelected;
-                  }),
-                ),
-              ),
-              SizedBox(height: 5),
-              Container(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.black, width: 2),
-                ),
-                child: DropdownButton<String>(
-                  value: strLevelProciencySelected,
-                  isExpanded: true,
-                  iconSize: 36,
-                  icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                  underline: Container(),
-                  style: TextStyle(
-                    // Set the style of the selected value
-                    color: Colors
-                        .black, // Change the color of the selected value text
-                    fontSize:
-                        14, // Adjust the font size of the selected value text
-                  ),
-                  items: [
-                    DropdownMenuItem<String>(
-                      value: null,
-                      child: Text(
-                        'Select Level Proficiency',
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
-                    ...strLevelProciencyItems.map(buildMenuItem).toList(),
-                  ],
-                  onChanged: (strLevelProciencyItems) => setState(() {
-                    this.strLevelProciencySelected = strLevelProciencySelected;
-                  }),
-                ),
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      'Cancel',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      //Navigator.pop(context);
-                    },
-                    child: Text('Create Space'),
-                  ),
-                ],
-              )
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  DropdownMenuItem<T> buildMenuItem<T>(T item) => DropdownMenuItem<T>(
-        value: item,
-        child: Text(
-          item.toString(),
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-        ),
-      );
-
+  Data data = Data();
   List<String> _uniqueLanguages = [];
   List<Map<String, dynamic>> _displayedItems = [];
 
-  final List<Map<String, dynamic>> _allItems = [
-    {
-      'title': 'English for the better future',
-      'language': 'English',
-      'Proficiency': 'Advanced',
-      'strUserId': '00001',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Indonesian',
-      'Proficiency': 'Advanced',
-      'strUserId': '00002',
-      'audienceId': ['00004', '00005', '00006'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'French',
-      'Proficiency': 'Upper Beginner',
-      'strUserId': '00003',
-      'audienceId': ['00003', '00001', '00002'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Vietamese',
-      'Proficiency': 'Beginner',
-      'strUserId': '00004',
-      'audienceId': ['00002', '00003', '00001'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Thai',
-      'Proficiency': 'Upper Intermediate',
-      'strUserId': '00005',
-      'audienceId': ['00002', '00001', '00003'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Malay',
-      'Proficiency': 'Advanced',
-      'strUserId': '00006',
-      'audienceId': ['00002', '00003', '00001'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Filipino',
-      'Proficiency': 'Intermediate',
-      'strUserId': '00007',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Filipino',
-      'Proficiency': 'Beginner',
-      'strUserId': '00008',
-      'audienceId': ['00002', '00001', '00003'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Filipino',
-      'Proficiency': 'Upper Beginner',
-      'strUserId': '00009',
-      'audienceId': ['00002', '00003', '00001'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Filipino',
-      'Proficiency': 'Upper Beginner',
-      'strUserId': '00010',
-      'audienceId': ['00003', '00001', '00002'],
-    },
-    {
-      'title': 'English for the better future',
-      'language': 'English',
-      'Proficiency': 'Advanced',
-      'strUserId': '00001',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'English for the better future',
-      'language': 'English',
-      'Proficiency': 'Advanced',
-      'strUserId': '00001',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'English for the better future',
-      'language': 'English',
-      'Proficiency': 'Advanced',
-      'strUserId': '00001',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'English for the better future',
-      'language': 'English',
-      'Proficiency': 'Advanced',
-      'strUserId': '00001',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'English for the better future',
-      'language': 'English',
-      'Proficiency': 'Advanced',
-      'strUserId': '00001',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'English for the better future',
-      'language': 'English',
-      'Proficiency': 'Advanced',
-      'strUserId': '00001',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'English for the better future',
-      'language': 'English',
-      'Proficiency': 'Advanced',
-      'strUserId': '00001',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'English for the better future',
-      'language': 'English',
-      'Proficiency': 'Advanced',
-      'strUserId': '00001',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'English for the better future',
-      'language': 'English',
-      'Proficiency': 'Advanced',
-      'strUserId': '00001',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'English for the better future',
-      'language': 'English',
-      'Proficiency': 'Advanced',
-      'strUserId': '00001',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Indonesian',
-      'Proficiency': 'Advanced',
-      'strUserId': '00002',
-      'audienceId': ['00004', '00005', '00006'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'French',
-      'Proficiency': 'Upper Beginner',
-      'strUserId': '00003',
-      'audienceId': ['00003', '00001', '00002'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Vietamese',
-      'Proficiency': 'Beginner',
-      'strUserId': '00004',
-      'audienceId': ['00002', '00003', '00001'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Thai',
-      'Proficiency': 'Upper Intermediate',
-      'strUserId': '00005',
-      'audienceId': ['00002', '00001', '00003'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Malay',
-      'Proficiency': 'Advanced',
-      'strUserId': '00006',
-      'audienceId': ['00002', '00003', '00001'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Filipino',
-      'Proficiency': 'Intermediate',
-      'strUserId': '00007',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'title': 'Hello',
-      'language': 'Filipino',
-      'Proficiency': 'Beginner',
-      'strUserId': '00008',
-      'audienceId': ['00002', '00001', '00003'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Filipino',
-      'Proficiency': 'Upper Beginner',
-      'strUserId': '00009',
-      'audienceId': ['00002', '00003', '00001'],
-    },
-    {
-      'title': 'French for the better future',
-      'language': 'Filipino',
-      'Proficiency': 'Upper Beginner',
-      'strUserId': '00010',
-      'audienceId': ['00003', '00001', '00002'],
-    },
-  ];
-  List<Map<String, String>> ztalkers = [
-    {'strUserId': '00001', 'strImagePath': 'speaker_1.jpeg'},
-    {'strUserId': '00002', 'strImagePath': 'speaker_2.jpeg'},
-    {'strUserId': '00003', 'strImagePath': 'speaker_3.jpeg'},
-    {'strUserId': '00004', 'strImagePath': 'speaker_4.jpeg'},
-    {'strUserId': '00005', 'strImagePath': 'speaker_5.jpeg'},
-    {'strUserId': '00006', 'strImagePath': 'speaker_6.jpeg'},
-    {'strUserId': '00007', 'strImagePath': 'speaker_7.jpeg'},
-    {'strUserId': '00008', 'strImagePath': 'speaker_8.jpeg'},
-    {'strUserId': '00009', 'strImagePath': 'speaker_9.jpeg'},
-    {'strUserId': '00010', 'strImagePath': 'speaker_10.jpeg'},
-    {'strUserId': '00011', 'strImagePath': 'speaker_11.jpeg'},
-    {'strUserId': '00012', 'strImagePath': 'speaker_12.jpeg'},
-    {'strUserId': '00013', 'strImagePath': 'speaker_13.jpeg'},
-    {'strUserId': '00014', 'strImagePath': 'speaker_14.jpeg'},
-    {'strUserId': '00015', 'strImagePath': 'speaker_15.jpeg'},
-    {'strUserId': '00016', 'strImagePath': 'speaker_16.jpeg'},
-    {'strUserId': '00017', 'strImagePath': 'speaker_17.jpeg'},
-    {'strUserId': '00018', 'strImagePath': 'speaker_18.jpeg'},
-    {'strUserId': '00018', 'strImagePath': 'speaker_19.jpeg'},
-    {'strUserId': '00020', 'strImagePath': 'speaker_20.jpeg'},
-  ];
   late ScrollController _scrollController;
   var languageClick = 'All';
 
@@ -484,26 +39,11 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
 
-    _allItems.sort((a, b) {
-      var languageA = a['language'] ?? '';
-      var languageB = b['language'] ?? '';
-
-      if (languageA == 'English') {
-        return -2; // "English" comes first
-      } else if (languageB == 'English') {
-        return 2; // "English" comes first
-      } else if (languageA == 'Filipino') {
-        return -1; // "Filipino" comes second
-      } else if (languageB == 'Filipino') {
-        return 1; // "Filipino" comes second
-      }
-
-      return languageB
-          .compareTo(languageA); // Sort other languages in descending order
-    });
+    //Get the data from other file
+    //data.getSortedItems();
 
     //Displayed only 5 container
-    _displayedItems = List.from(_allItems.take(10));
+    _displayedItems = List.from(data.getSortedItems().take(10));
 
     //Filter unique languages for buttons
     filterUniqueLanguages();
@@ -512,21 +52,20 @@ class _HomeState extends State<Home> {
 
     //Not working
     _scrollController.addListener(() {
-      print('Working 1');
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         // Load more items when scrolled to the bottom
         loadMoreItems();
       }
     });
-    print('Working 2');
   }
 
   void searchQuery(String filter) {
     setState(() {
-      _displayedItems = _allItems
+      _displayedItems = data
+          .getSortedItems()
           .where((item) =>
-              item['title']!.toLowerCase().contains(filter.toLowerCase()) ||
+              item['topic']!.toLowerCase().contains(filter.toLowerCase()) ||
               item['language']!.toLowerCase().contains(filter.toLowerCase()) ||
               item['Proficiency']!.toLowerCase().contains(filter.toLowerCase()))
           .toList();
@@ -537,9 +76,10 @@ class _HomeState extends State<Home> {
     setState(() {
       if (filter.isEmpty) {
         reachMaxItems = false;
-        _displayedItems = List.from(_allItems.take(10));
+        _displayedItems = List.from(data.getSortedItems().take(10));
       } else {
-        _displayedItems = _allItems
+        _displayedItems = data
+            .getSortedItems()
             //.take(10)
             .where((item) =>
                 item['language']!
@@ -566,9 +106,10 @@ class _HomeState extends State<Home> {
       final int currentLength = _displayedItems.length;
       final int nextIndex = currentLength + 10;
 
-      if (nextIndex <= _allItems.length) {
+      if (nextIndex <= data.getSortedItems().length) {
         reachMaxItems = false;
-        _displayedItems.addAll(_allItems.getRange(currentLength, nextIndex));
+        _displayedItems
+            .addAll(data.getSortedItems().getRange(currentLength, nextIndex));
       } else {
         reachMaxItems = true;
       }
@@ -578,7 +119,7 @@ class _HomeState extends State<Home> {
   void filterUniqueLanguages() {
     Set<String> languagesSet = {};
 
-    for (var item in _allItems) {
+    for (var item in data.getSortedItems()) {
       var language = item['language'];
       languagesSet.add(language ?? '');
     }
@@ -603,7 +144,7 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 TextField(
                   decoration: InputDecoration(
-                    labelText: 'Search for a space/title...',
+                    labelText: 'Search for a space/topic...',
                     prefixIcon: Icon(Icons.search),
                   ),
                   onSubmitted: (String input) {
@@ -662,10 +203,12 @@ class _HomeState extends State<Home> {
                         itemBuilder: (context, index) {
                           final item = _displayedItems[index];
                           final userId = item['strUserId']!;
-                          final speakerImagePath = ztalkers.firstWhere(
-                              (ztalker) => ztalker['strUserId'] == userId,
-                              orElse: () =>
-                                  {'strImagePath': ''})['strImagePath'];
+                          final speakerImagePath = data
+                              .getAllZtalkers()
+                              .firstWhere(
+                                  (ztalker) => ztalker['strUserId'] == userId,
+                                  orElse: () =>
+                                      {'strImagePath': ''})['strImagePath'];
 
                           //Audience id
                           final audienceIds = _displayedItems[index]
@@ -673,7 +216,7 @@ class _HomeState extends State<Home> {
                           final audienceImagePaths = <String>[];
 
                           for (final userId in audienceIds) {
-                            final ztalker = ztalkers.firstWhere(
+                            final ztalker = data.getAllZtalkers().firstWhere(
                                 (ztalker) => ztalker['strUserId'] == userId,
                                 orElse: () => {'strImagePath': ''});
 
@@ -713,7 +256,7 @@ class _HomeState extends State<Home> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(_displayedItems[index]
-                                                      ['title']!),
+                                                      ['topic']!),
                                                   Text(
                                                       '${_displayedItems[index]['language']} - ${_displayedItems[index]['Proficiency']}'),
                                                 ],
@@ -792,8 +335,11 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //Call the bottom sheet here
-          _showMenuForm(context);
+          showModalBottomSheet(
+              context: context,
+              builder: (context) => MenuBarModal() // Call your modal here
+              );
+          print('Step call');
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ztalks/pages/home/Home.dart';
+import 'package:ztalks/pages/home/modal/menu_bar_modal.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,8 +18,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Home(title: 'Ztalks'),
+      home: Home(
+        title: 'Ztalks'
+       
+      ),
     );
   }
-
 }

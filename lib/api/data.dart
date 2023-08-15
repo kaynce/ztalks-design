@@ -5,6 +5,14 @@ class Data {
   //   return _allItems;
   // }
 
+  //Singleton pattern to make sure only one instance is created
+  static final Data _instance = Data._internal();
+  Data._internal();
+
+  factory Data() {
+    return _instance;
+  }
+
   List<Map<String, String>> getAllZtalkers() {
     return _ztalkers;
   }
@@ -48,9 +56,10 @@ class Data {
     _allItems.add({
       'intId': _allItems.length,
       'topic': strTopic,
-      'language': intGroupSize,
-      'Proficiency': strLanguage,
+      'language': strLanguage,
+      'proficiency': strLevelProciency,
       'strUserId': '00001',
+      'groupSize': intGroupSize,
       'audienceId': ['00001', '00002', '00003'],
     });
 
@@ -62,16 +71,9 @@ class Data {
       'intId': 01,
       'topic': 'English for the better future',
       'language': 'English',
-      'Proficiency': 'Advanced',
+      'proficiency': 'Advanced',
       'strUserId': '00001',
-      'audienceId': ['00001', '00002', '00003'],
-    },
-    {
-      'intId': 02,
-      'topic': 'English ',
-      'language': 'English',
-      'Proficiency': 'Advanced',
-      'strUserId': '00001',
+      'groupSize': 2,
       'audienceId': ['00001', '00002', '00003'],
     },
   ];

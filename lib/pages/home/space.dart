@@ -11,7 +11,12 @@ class Space extends StatefulWidget {
 class _SpaceState extends State<Space> {
   var isMicrophoneOn = false;
 
-  void toggleMicrophone(){
+  @override
+  void initState(){
+    super.initState();
+  }
+
+  void toggleMicrophone() {
     setState(() {
       isMicrophoneOn = !isMicrophoneOn;
     });
@@ -47,7 +52,7 @@ class _SpaceState extends State<Space> {
           ),
           Container(
             alignment: Alignment.bottomLeft,
-              padding: EdgeInsets.only(left: 20),
+            padding: EdgeInsets.only(left: 20),
             child: Text(
               'Speakers',
               style: TextStyle(fontSize: 15),
@@ -71,10 +76,19 @@ class _SpaceState extends State<Space> {
                                   children: [
                                     Stack(
                                       children: [
-                                        CircleAvatar(
-                                          backgroundImage:
-                                              AssetImage('assets/img/1.jpg'),
-                                          radius: 30,
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: Colors.blueAccent, // Border color (gold in this case)
+                                              width: 2.0, // Border width
+                                            ),
+                                          ),
+                                          child: CircleAvatar(
+                                            backgroundImage:
+                                                AssetImage('assets/img/1.jpg'),
+                                            radius: 30,
+                                          ),
                                         ),
                                         Transform.translate(
                                           offset: Offset(37, 37),
@@ -88,7 +102,11 @@ class _SpaceState extends State<Space> {
                                             child: GestureDetector(
                                               onTap: toggleMicrophone,
                                               child: Icon(
-                                                isMicrophoneOn ? FontAwesomeIcons.microphone: FontAwesomeIcons.microphoneSlash,
+                                                isMicrophoneOn
+                                                    ? FontAwesomeIcons
+                                                        .microphone
+                                                    : FontAwesomeIcons
+                                                        .microphoneSlash,
                                                 color: Colors.black,
                                                 size:
                                                     16, // Use 'size' instead of 'iconSize'
@@ -138,7 +156,6 @@ class _SpaceState extends State<Space> {
                                   ],
                                 ),
                               ),
-                              
                             ],
                           ),
                         ],
@@ -152,7 +169,7 @@ class _SpaceState extends State<Space> {
           SizedBox(height: 20),
           Container(
             alignment: Alignment.bottomLeft,
-              padding: EdgeInsets.only(left: 20),
+            padding: EdgeInsets.only(left: 20),
             child: Text(
               'Audience',
               style: TextStyle(fontSize: 15),

@@ -55,6 +55,10 @@ class _MenuBarModalState extends State<MenuBarModal> {
     super.dispose();
   }
 
+  void saveTopic(){
+      strTopic = topicController?.text;
+      //setState(() {}); // Update the UI to reflect the changes
+  }
   // Function to close all open modals and the current page
 void closePageAndModals() {
   for (var modalContext in openModalContexts) {
@@ -255,6 +259,7 @@ void closePageAndModals() {
                         if (_formKey.currentState!.validate()) {
                           print('Success');
 
+                          saveTopic();
                           Data data = Data();
                           data.createSpace(
                               strTopic ?? '',
@@ -262,20 +267,22 @@ void closePageAndModals() {
                               strLanguageSelected ?? '',
                               strLevelProciencySelected ?? '');
 
-                          // Clear the form fields and reset the selected values
+                          //Clear the form fields and reset the selected values
                           topicController?.clear();
                           intGroupSizeSelected = null;
                           strLanguageSelected = null;
                           strLevelProciencySelected = null;
 
-                          // Refresh the page by triggering a rebuild
+                          //Refresh the page by triggering a rebuild
                           //setState(() {});
                           closePageAndModals();
 
+                          /*
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => Space())
                           );
+                          */
                         }
                       },
                       child: Text('Create Space'),

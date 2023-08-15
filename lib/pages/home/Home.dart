@@ -39,18 +39,22 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
 
-    //Get the data from other file
-    //data.getSortedItems();
+    loadData();
+  }
 
-    //Displayed only 5 container
+  void loadData() {
+    // Get the data from other file
+    // data.getSortedItems();
+
+    // Displayed only 5 containers
     _displayedItems = List.from(data.getSortedItems().take(10));
 
-    //Filter unique languages for buttons
+    // Filter unique languages for buttons
     filterUniqueLanguages();
 
     _scrollController = ScrollController();
 
-    //Not working
+    // Not working
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -67,13 +71,13 @@ class _HomeState extends State<Home> {
           .where((item) =>
               item['topic']!.toLowerCase().contains(filter.toLowerCase()) ||
               item['language']!.toLowerCase().contains(filter.toLowerCase()) ||
-              item['Proficiency']!.toLowerCase().contains(filter.toLowerCase()))
+              item['proficiency']!.toLowerCase().contains(filter.toLowerCase()))
           .toList();
     });
   }
 
   void filterItems(String filter) {
-    setState(() {
+    //setState(() {
       if (filter.isEmpty) {
         reachMaxItems = false;
         _displayedItems = List.from(data.getSortedItems().take(10));
@@ -85,7 +89,7 @@ class _HomeState extends State<Home> {
                 item['language']!
                     .toLowerCase()
                     .contains(filter.toLowerCase()) ||
-                item['Proficiency']!
+                item['proficiency']!
                     .toLowerCase()
                     .contains(filter.toLowerCase()))
             .toList();
@@ -96,13 +100,14 @@ class _HomeState extends State<Home> {
       } else {
         changeLanguage(filter);
       }
-    });
+      
+   // });
   }
 
   var reachMaxItems = false;
 
   void loadMoreItems() {
-    setState(() {
+    //setState(() {
       final int currentLength = _displayedItems.length;
       final int nextIndex = currentLength + 10;
 
@@ -113,7 +118,7 @@ class _HomeState extends State<Home> {
       } else {
         reachMaxItems = true;
       }
-    });
+   // });
   }
 
   void filterUniqueLanguages() {
@@ -124,9 +129,9 @@ class _HomeState extends State<Home> {
       languagesSet.add(language ?? '');
     }
 
-    setState(() {
+    //setState(() {
       _uniqueLanguages.addAll(languagesSet.toList());
-    });
+    //});
   }
 
   @override
@@ -258,7 +263,7 @@ class _HomeState extends State<Home> {
                                                   Text(_displayedItems[index]
                                                       ['topic']!),
                                                   Text(
-                                                      '${_displayedItems[index]['language']} - ${_displayedItems[index]['Proficiency']}'),
+                                                      '${_displayedItems[index]['language']} - ${_displayedItems[index]['proficiency']}'),
                                                 ],
                                               ),
                                             ],
